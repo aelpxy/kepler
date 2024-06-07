@@ -1,13 +1,15 @@
 import nodemailer from 'nodemailer';
 
+import { APP_CONSTANTS } from '@/config/app.config';
+
 const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
+    host: APP_CONSTANTS.SMTP_HOST,
     port: 465,
     secure: true,
     auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASSWORD,
+        user: APP_CONSTANTS.SMTP_USER,
+        pass: APP_CONSTANTS.SMTP_PASSWORD,
     },
 });
 
-export default transporter;
+export default { transporter };

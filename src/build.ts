@@ -58,7 +58,7 @@ const buildServer = () => {
         return reply.status(error.statusCode as number).send({
             error: {
                 message: error.message,
-                type: error.type || 'api',
+                type: error.type || 'api_error',
             },
         });
     });
