@@ -12,7 +12,7 @@ import redisInstance from '@/adapters/redis';
 
 import { loggerConfig } from '@/utils/logger';
 import { id } from '@/utils/id';
-import { APP_CONSTANTS } from './config/app.config';
+import { appConfig } from './config/app.config';
 
 const buildServer = () => {
     const app: FastifyInstance = Fastify({
@@ -25,7 +25,7 @@ const buildServer = () => {
 
     app.register(helmet);
     app.register(cors, {
-        origin: APP_CONSTANTS.ORIGIN,
+        origin: appConfig.ORIGIN,
     });
     app.register(fastifyEtag);
 

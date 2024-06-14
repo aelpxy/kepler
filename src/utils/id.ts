@@ -1,4 +1,4 @@
-import { APP_CONSTANTS } from '@/config/app.config';
+import { appConfig } from '@/config/app.config';
 import crypto from 'crypto';
 
 class ID {
@@ -13,13 +13,13 @@ class ID {
     }
 
     public generateTimestamp(): bigint {
-        return BigInt(Date.now()) - BigInt(APP_CONSTANTS.EPOCH);
+        return BigInt(Date.now()) - BigInt(appConfig.EPOCH);
     }
 
     public generateRandomSequence(): bigint {
         return (
             BigInt(crypto.randomBytes(2).readUInt16LE(0)) &
-            APP_CONSTANTS.SEQUENCE_MASK
+            appConfig.SEQUENCE_MASK
         );
     }
 
@@ -27,7 +27,7 @@ class ID {
         let timestamp = this.generateTimestamp();
 
         if (timestamp === this.lastTimestamp) {
-            this.sequence = (0n + 1n) & APP_CONSTANTS.SEQUENCE_MASK;
+            this.sequence = (0n + 1n) & appConfig.SEQUENCE_MASK;
             if (this.sequence === 0n) {
                 timestamp = this.generateTimestamp();
             }
@@ -37,8 +37,8 @@ class ID {
 
         const snowflake =
             (timestamp << 22n) |
-            (APP_CONSTANTS.MACHINE_ID << 12n) |
-            (this.sequence & APP_CONSTANTS.SEQUENCE_MASK);
+            (appConfig.MACHINE_ID << 12n) |
+            (this.sequence & appConfig.SEQUENCE_MASK);
 
         const snowflakeString = snowflake.toString().padStart(18, '0');
 

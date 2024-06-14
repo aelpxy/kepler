@@ -11,7 +11,7 @@ class SharedServiceBase {
     public readonly id: typeof id;
     public readonly log: typeof logger;
     public readonly jwt: typeof jwt;
-    public readonly httpException: typeof HttpException;
+    public readonly exception: typeof HttpException;
     public readonly argon2: typeof argon2;
 
     constructor() {
@@ -19,7 +19,7 @@ class SharedServiceBase {
         this.id = id;
         this.log = logger;
         this.jwt = jwt;
-        this.httpException = HttpException;
+        this.exception = HttpException;
         this.argon2 = argon2;
     }
 }

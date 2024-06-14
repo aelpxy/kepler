@@ -1,8 +1,8 @@
 import { Redis } from 'ioredis';
 import { logger } from '@/utils/logger';
-import { APP_CONSTANTS } from '@/config/app.config';
+import { appConfig } from '@/config/app.config';
 
-const redisInstance = new Redis(APP_CONSTANTS.REDIS_URL as string);
+const redisInstance = new Redis(appConfig.REDIS_URL as string);
 
 redisInstance.on('connect', () => {
     logger.info('Connected to Redis instance');

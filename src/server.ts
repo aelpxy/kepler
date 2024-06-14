@@ -1,4 +1,4 @@
-import { APP_CONSTANTS } from '@/config/app.config';
+import { appConfig } from '@/config/app.config';
 import buildServer from '@/build';
 
 import db from '@/adapters/db';
@@ -7,9 +7,7 @@ const server = buildServer();
 
 const start = (port: number, host: string): void => {
     try {
-        server.log.info(
-            `Server is starting in ${APP_CONSTANTS.ENVIRONMENT} mode`
-        );
+        server.log.info(`Server is starting in ${appConfig.ENVIRONMENT} mode`);
 
         db.$connect()
             .then(() => server.log.info('Database client connected'))

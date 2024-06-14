@@ -42,7 +42,6 @@
         "fastify": "^4.28.0",
         "fastify-plugin": "^4.5.1",
         "fastify-type-provider-zod": "^1.2.0",
-        "fastify-yup-schema": "^1.0.4",
         "ioredis": "^5.4.1",
         "jsonwebtoken": "^9.0.2",
         "nodemailer": "^6.9.13",

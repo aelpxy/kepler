@@ -1,9 +1,9 @@
 import * as JsonWebToken from 'jsonwebtoken';
-import { APP_CONSTANTS } from '@/config/app.config';
+import { appConfig } from '@/config/app.config';
 
 class Jwt {
-    private static secretKey: string = APP_CONSTANTS.JWT_SECRET as string;
-    private static jwtIssuer: string = APP_CONSTANTS.JWT_ISSUER as string;
+    private static secretKey: string = appConfig.JWT_SECRET as string;
+    private static jwtIssuer: string = appConfig.JWT_ISSUER as string;
 
     public async generateJwtToken(
         payload: object,

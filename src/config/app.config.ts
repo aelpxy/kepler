@@ -4,7 +4,7 @@ import os from 'os';
 
 config();
 
-const APP_CONSTANTS = {
+const appConfig = {
     ENVIRONMENT: process.env.NODE_ENV,
     PORT: process.env.PORT || 8080,
     HOST: process.env.HOST || '0.0.0.0',
@@ -33,4 +33,4 @@ const APP_CONSTANTS = {
     S3_ACCESS_SECRET_KEY: process.env.S3_ACCESS_SECRET_KEY,
 };
 
-export { APP_CONSTANTS };
+export { appConfig };
