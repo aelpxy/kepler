@@ -11,15 +11,16 @@ class SharedServiceBase {
     public readonly id: typeof id;
     public readonly log: typeof logger;
     public readonly jwt: typeof jwt;
-    public readonly exception: typeof HttpException;
+    public readonly httpException: typeof HttpException;
     public readonly argon2: typeof argon2;
 
     constructor() {
         this.db = db;
         this.id = id;
         this.log = logger;
+        this.argon2 = argon2;
         this.jwt = jwt;
-        this.exception = HttpException;
+        this.httpException = HttpException;
         this.argon2 = argon2;
     }
 }

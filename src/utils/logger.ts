@@ -1,10 +1,24 @@
-import fastify from 'fastify';
+import fastify, { FastifyInstance, FastifyRequest } from 'fastify';
 
-const loggerConfig = {
+interface LoggerConfig {
+    level: string;
+    redact: string[];
+    serializers: {
+        req(request: FastifyRequest): {
+            method: string;
+            url: string;
+            hostname: string;
+            remoteAddress: string;
+            remotePort: number | undefined;
+        };
+    };
+}
+
+const loggerConfig: LoggerConfig = {
     level: 'info',
     redact: ['headers.authorization'],
     serializers: {
-        req(request: any) {
+        req(request) {
             return {
                 method: request.method,
                 url: request.url,
@@ -16,7 +30,7 @@ const loggerConfig = {
     },
 };
 
-const app = fastify({ logger: loggerConfig });
+const app: FastifyInstance = fastify({ logger: loggerConfig });
 const logger = app.log;
 
 export { loggerConfig, logger };

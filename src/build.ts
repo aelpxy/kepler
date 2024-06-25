@@ -27,16 +27,15 @@ const buildServer = () => {
     app.register(cors, {
         origin: appConfig.ORIGIN,
     });
-    app.register(fastifyEtag);
-
     app.register(rateLimit, {
         global: true,
-        max: 4,
-        ban: 5,
-        timeWindow: '10 second',
-        redis: redisInstance,
+        max: 10,
+        ban: 11,
+        timeWindow: '1 minute',
         nameSpace: 'rate-limit',
+        redis: redisInstance,
     });
+    app.register(fastifyEtag);
 
     app.setValidatorCompiler(validatorCompiler);
     app.setSerializerCompiler(serializerCompiler);
@@ -52,18 +51,22 @@ const buildServer = () => {
 
     app.setErrorHandler(function (error: any, _, reply) {
         if (error.statusCode === 400) {
-            error.type = 'invalid_request';
+            error.type = 'validation_error';
+        }
+
+        if (error.statusCode === 429) {
+            error.type = 'rate_limited';
         }
 
         return reply.status(error.statusCode as number).send({
             error: {
                 message: error.message,
-                type: error.type || 'api_error',
+                type: error.type || 'internal_error',
             },
         });
     });
 
-    app.addHook('onSend', async (request: any, reply, payload) => {
+    app.addHook('onSend', async (request, reply, payload) => {
         reply.header('X-Request-ID', request.id);
 
         return payload;

@@ -7,21 +7,22 @@ const server = buildServer();
 
 const start = (port: number, host: string): void => {
     try {
-        server.log.info(`Server is starting in ${appConfig.ENVIRONMENT} mode`);
+        server.log.info(`Starting server in ${appConfig.ENVIRONMENT} mode`);
 
         db.$connect()
-            .then(() => server.log.info('Database client connected'))
-            .catch((error: any) => {
-                server.log.error('Failed to connect to database', error);
+            .then(() => server.log.info('Connected to PostgreSQL'))
+            .catch((error) => {
+                server.log.error(error);
                 process.exit(1);
             });
 
         server
             .listen({ port, host })
-            .then(() => server.log.info('Server is ready to serve requests'));
+            .then(() =>
+                server.log.info('Server is now ready to serve requests')
+            );
     } catch (error) {
-        server.log.error(error);
-        process.exit(1);
+        shutdown();
     }
 };
 

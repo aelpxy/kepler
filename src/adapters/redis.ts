@@ -5,7 +5,7 @@ import { appConfig } from '@/config/app.config';
 const redisInstance = new Redis(appConfig.REDIS_URL as string);
 
 redisInstance.on('connect', () => {
-    logger.info('Connected to Redis instance');
+    logger.info('Connected to Redis');
 });
 
 redisInstance.on('error', (error) => {

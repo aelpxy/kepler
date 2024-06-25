@@ -1,15 +1,27 @@
 import { FastifyReply } from 'fastify';
 
+type ErrorType =
+    | 'access_denied'
+    | 'api_error'
+    | 'conflict'
+    | 'duplicate_entry'
+    | 'internal_error'
+    | 'invalid_input'
+    | 'invalid_request'
+    | 'resource_missing'
+    | 'validation_error'
+    | 'rate_limited';
+
 interface HttpError {
     message: string;
-    type: string;
+    type: ErrorType;
 }
 
 class HttpException extends Error {
     statusCode: number;
     error: HttpError;
 
-    constructor(statusCode: number, message: string, type: string) {
+    constructor(statusCode: number, message: string, type: ErrorType) {
         super(message);
         this.name = 'HttpException';
         this.statusCode = statusCode;
