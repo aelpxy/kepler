@@ -1,9 +1,9 @@
 import { appConfig } from '@/config/app.config';
-import crypto from 'crypto';
+import crypto from 'node:crypto';
 
 class ID {
-    private sequence: bigint = 0n;
-    private lastTimestamp: bigint = -1n;
+    private sequence = 0n;
+    private lastTimestamp = -1n;
 
     public generateCUID(prefix: string, length: number): string {
         return `${prefix}_${crypto
@@ -59,7 +59,7 @@ class ID {
         });
     }
 
-    public generateBase64ID(length: number = 22): string {
+    public generateBase64ID(length = 22): string {
         return crypto
             .randomBytes(Math.ceil((length * 3) / 4))
             .toString('base64')

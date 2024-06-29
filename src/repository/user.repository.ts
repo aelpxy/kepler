@@ -2,7 +2,7 @@ import SharedServiceBase from '@/shared/shared-service';
 
 import { getUserRepositorySchema } from '@/schemas/user.schema';
 
-class UserRepository {
+export class UserRepository {
     private sharedService: SharedServiceBase;
 
     constructor() {
@@ -41,5 +41,3 @@ class UserRepository {
         return getUserRepositorySchema.parse(user);
     }
 }
-
-export { UserRepository };

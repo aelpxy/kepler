@@ -1,4 +1,4 @@
-import fastify, { FastifyInstance, FastifyRequest } from 'fastify';
+import fastify, { type FastifyInstance, type FastifyRequest } from 'fastify';
 
 interface LoggerConfig {
     level: string;

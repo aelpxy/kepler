@@ -1,4 +1,11 @@
-import { FastifyReply } from 'fastify';
+import type { IncomingMessage, ServerResponse } from 'node:http';
+import type {
+    FastifyReply,
+    FastifySchema,
+    FastifyTypeProviderDefault,
+    RawServerDefault,
+    RouteGenericInterface,
+} from 'fastify';
 
 type ErrorType =
     | 'access_denied'
@@ -47,7 +54,19 @@ function handleHttpException(reply: FastifyReply, error: HttpException) {
     });
 }
 
-function handleHttpExceptionError(error: any, reply: any) {
+function handleHttpExceptionError(
+    error: HttpException,
+    reply: FastifyReply<
+        RawServerDefault,
+        IncomingMessage,
+        ServerResponse<IncomingMessage>,
+        RouteGenericInterface,
+        unknown,
+        FastifySchema,
+        FastifyTypeProviderDefault,
+        unknown
+    >
+) {
     if (error instanceof HttpException) {
         return handleHttpException(reply, error);
     }

@@ -1,6 +1,6 @@
 import { config } from 'dotenv';
-import crypto from 'crypto';
-import os from 'os';
+import crypto from 'node:crypto';
+import os from 'node:os';
 
 config();
 

@@ -1,4 +1,4 @@
-import Fastify, { FastifyInstance } from 'fastify';
+import Fastify, { type FastifyInstance } from 'fastify';
 import {
     serializerCompiler,
     validatorCompiler,
@@ -12,7 +12,13 @@ import redisInstance from '@/adapters/redis';
 
 import { loggerConfig } from '@/utils/logger';
 import { id } from '@/utils/id';
-import { appConfig } from './config/app.config';
+import { appConfig } from '@/config/app.config';
+
+declare module 'fastify' {
+    interface FastifyError {
+        type: string;
+    }
+}
 
 const buildServer = () => {
     const app: FastifyInstance = Fastify({
@@ -40,16 +46,16 @@ const buildServer = () => {
     app.setValidatorCompiler(validatorCompiler);
     app.setSerializerCompiler(serializerCompiler);
 
-    app.setNotFoundHandler(function (request, reply) {
-        return reply.code(404).send({
+    app.setNotFoundHandler((request, reply) =>
+        reply.code(404).send({
             error: {
                 message: `Unrecognized request URL (${request.method}: ${request.url}).`,
                 type: 'invalid_request',
             },
-        });
-    });
+        })
+    );
 
-    app.setErrorHandler(function (error: any, _, reply) {
+    app.setErrorHandler((error, _, reply) => {
         if (error.statusCode === 400) {
             error.type = 'validation_error';
         }
