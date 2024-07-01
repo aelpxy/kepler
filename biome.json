@@ -9,12 +9,12 @@
     "lineEnding": "lf",
     "lineWidth": 80,
     "attributePosition": "auto",
-    "ignore": ["prisma", "node_modules"]
+    "ignore": ["node_modules"]
   },
   "linter": {
     "enabled": true,
     "rules": { "recommended": true },
-    "ignore": ["prisma", "node_modules"]
+    "ignore": ["node_modules"]
   },
   "javascript": {
     "formatter": {

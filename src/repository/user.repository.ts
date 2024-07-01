@@ -1,6 +1,8 @@
 import SharedServiceBase from '@/shared/shared-service';
 
 import { getUserRepositorySchema } from '@/schemas/user.schema';
+import { users } from '@/db/schema';
+import { eq } from 'drizzle-orm';
 
 export class UserRepository {
     private sharedService: SharedServiceBase;
@@ -10,9 +12,10 @@ export class UserRepository {
     }
 
     public async findById(id: string) {
-        const user = await this.sharedService.db.user.findUnique({
-            where: { id },
-        });
+        const user = await this.sharedService.db
+            .select()
+            .from(users)
+            .where(eq(users.id, id));
 
         if (!user) {
             throw new this.sharedService.httpException(
@@ -26,9 +29,10 @@ export class UserRepository {
     }
 
     public async findByEmail(email: string) {
-        const user = await this.sharedService.db.user.findUnique({
-            where: { email },
-        });
+        const user = await this.sharedService.db
+            .select()
+            .from(users)
+            .where(eq(users.email, email));
 
         if (!user) {
             throw new this.sharedService.httpException(

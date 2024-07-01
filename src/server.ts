@@ -1,20 +1,15 @@
 import { appConfig } from '@/config/app.config';
 import buildServer from '@/build';
 
-import db from '@/adapters/db';
+import { connectToDb } from '@/adapters/db';
 
 const server = buildServer();
 
-const start = (port: number, host: string): void => {
+const start = async (port: number, host: string) => {
     try {
         server.log.info(`Starting server in ${appConfig.ENVIRONMENT} mode`);
 
-        db.$connect()
-            .then(() => server.log.info('Connected to PostgreSQL'))
-            .catch((error) => {
-                server.log.error(error);
-                process.exit(1);
-            });
+        await connectToDb();
 
         server
             .listen({ port, host })
@@ -28,9 +23,6 @@ const start = (port: number, host: string): void => {
 
 const shutdown = async () => {
     server.log.info('Starting graceful shutdown');
-
-    server.log.info('Disconnecting from database');
-    await db.$disconnect();
 
     server.log.info('Shutting server down');
     await server.close();
