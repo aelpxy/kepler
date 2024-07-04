@@ -67,6 +67,4 @@ class ID {
     }
 }
 
-const id = new ID();
-
-export { id };
+export const id = new ID();
