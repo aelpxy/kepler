@@ -3,7 +3,7 @@ import { Pool } from 'pg';
 
 import { appConfig } from '@/config/app.config';
 import { logger } from '@/utils/logger';
-import * as schema from '@/db/schema';
+import * as schema from '@/db/users';
 
 export let db: PostgresJsDatabase<typeof schema>;
 

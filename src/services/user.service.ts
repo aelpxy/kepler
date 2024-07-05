@@ -1,6 +1,8 @@
 import SharedServiceBase from '@/shared/shared-service';
 import { repository } from '@/repository';
 
+import { HttpException } from '@/utils/http';
+
 export class UserService {
     private sharedService: SharedServiceBase;
     private userRepository;
@@ -10,18 +12,22 @@ export class UserService {
         this.userRepository = repository.userRepository;
     }
 
-    async signUp(params: { email: string; password: string }) {
-        // const userExists = await this.userRepository.findByEmail(params.email);
+    async signUp(params: { email: string; username: string }) {
+        const userExists = await this.userRepository.findByEmail(params.email);
 
-        // if (userExists) {
-        //   throw new this.sharedService.httpException(
-        //     409,
-        //     "An user with this email already exists",
-        //     "conflict"
-        //   );
-        // }
+        if (userExists) {
+            throw new HttpException(
+                409,
+                `No user found with email '${params.email}'.`,
+                'conflict'
+            );
+        }
 
-        return;
+        // copying an object with `...` does contain some memory overhead but it's fine
+        return await repository.userRepository.create({
+            avatarPath: 'avatar_path',
+            ...params,
+        });
     }
 
     async signIn() {}

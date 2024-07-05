@@ -1,7 +1,6 @@
 import SharedServiceBase from '@/shared/shared-service';
-
-import { getUserRepositorySchema } from '@/schemas/user.schema';
 import { users } from '@/db/schema';
+
 import { eq } from 'drizzle-orm';
 
 export class UserRepository {
@@ -17,15 +16,7 @@ export class UserRepository {
             .from(users)
             .where(eq(users.id, id));
 
-        if (!user) {
-            throw new this.sharedService.httpException(
-                404,
-                `No user found with ID '${id}'.`,
-                'resource_missing'
-            );
-        }
-
-        return getUserRepositorySchema.parse(user);
+        return user;
     }
 
     public async findByEmail(email: string) {
@@ -34,14 +25,22 @@ export class UserRepository {
             .from(users)
             .where(eq(users.email, email));
 
-        if (!user) {
-            throw new this.sharedService.httpException(
-                404,
-                `No user found with email '${email}'.`,
-                'resource_missing'
-            );
-        }
+        return user;
+    }
 
-        return getUserRepositorySchema.parse(user);
+    public async create(params: {
+        avatarPath: string;
+        username: string;
+        email: string;
+    }) {
+        return await this.sharedService.db
+            .insert(users)
+            .values({
+                id: this.sharedService.id.generateCUID('user', 16),
+                avatarPath: params.avatarPath,
+                username: params.username,
+                email: params.email,
+            })
+            .returning();
     }
 }

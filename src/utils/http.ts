@@ -45,7 +45,8 @@ class HttpException extends Error {
     }
 }
 
-function handleHttpException(reply: FastifyReply, error: HttpException) {
+// biome-ignore lint/suspicious/noExplicitAny: Defining a custom error type is hard
+function handleHttpException(reply: FastifyReply, error: any) {
     reply.status(error.statusCode || 500).send({
         error: {
             message: error.message,
