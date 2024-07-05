@@ -41,6 +41,6 @@ export class UserRepository {
                 username: params.username,
                 email: params.email,
             })
-            .returning();
+            .returning({ id: users.id });
     }
 }

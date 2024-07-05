@@ -23,11 +23,13 @@ export class UserService {
             );
         }
 
-        // copying an object with `...` does contain some memory overhead but it's fine
-        return await repository.userRepository.create({
+        // copying an object with `...` does introduce some memory overhead but it's fine
+        const user = await repository.userRepository.create({
             avatarPath: 'avatar_path',
             ...params,
         });
+
+        return user;
     }
 
     async signIn() {}
