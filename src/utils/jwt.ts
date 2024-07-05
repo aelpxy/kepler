@@ -1,63 +1,28 @@
-import * as JsonWebToken from 'jsonwebtoken';
+import { createSigner, createVerifier } from 'fast-jwt';
 import { appConfig } from '@/config/app.config';
 
-interface JwtPayload {
-    userId: string;
-    role: string;
-}
+class JsonWebToken {
+    private secretKey = appConfig.JWT_SECRET as string;
+    private jwtIssuer = appConfig.JWT_ISSUER;
 
-class Jwt {
-    private static secretKey = appConfig.JWT_SECRET as string;
-    private static jwtIssuer = appConfig.JWT_ISSUER;
-
-    public async generateJwtToken(
-        payload: JwtPayload,
-        expiresIn: string
-    ): Promise<string> {
-        return new Promise<string>((resolve, reject) => {
-            JsonWebToken.sign(
-                payload,
-                Jwt.secretKey,
-                { expiresIn: expiresIn, issuer: Jwt.jwtIssuer },
-                (error: Error | null, token?: string) => {
-                    if (error) {
-                        reject(new Error(error.message));
-                    } else {
-                        if (token) {
-                            resolve(token);
-                        } else {
-                            reject(new Error('Token could not be generated'));
-                        }
-                    }
-                }
-            );
+    async sign(payload: Object, expiresIn: number) {
+        const signer = createSigner({
+            key: this.secretKey,
+            iss: this.jwtIssuer,
+            expiresIn,
         });
+
+        return signer(payload);
     }
 
-    public async verifyJwtToken(token: string): Promise<JwtPayload> {
-        return new Promise<JwtPayload>((resolve, reject) => {
-            JsonWebToken.verify(
-                token,
-                Jwt.secretKey,
-                {
-                    issuer: Jwt.jwtIssuer,
-                },
-                (error: Error | null, decoded?: object | string) => {
-                    if (error) {
-                        reject(new Error(error.message));
-                    } else {
-                        if (typeof decoded === 'string') {
-                            reject(new Error('Token could not be verified'));
-                        } else {
-                            resolve(decoded as JwtPayload);
-                        }
-                    }
-                }
-            );
+    async decode(token: string) {
+        const decoder = createVerifier({
+            key: this.secretKey,
+            allowedIss: this.jwtIssuer,
         });
+
+        return await decoder(token);
     }
 }
 
-const jwt = new Jwt();
-
-export { jwt };
+export const jwt = new JsonWebToken();
