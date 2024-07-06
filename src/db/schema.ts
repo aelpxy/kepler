@@ -1,4 +1,4 @@
-import { pgTable, text, uniqueIndex } from 'drizzle-orm/pg-core';
+import { pgTable, text, uniqueIndex, boolean } from 'drizzle-orm/pg-core';
 
 export const users = pgTable(
     'users',
@@ -7,6 +7,7 @@ export const users = pgTable(
         avatarPath: text('avatar_path').notNull().unique(),
         username: text('username').notNull().unique(),
         email: text('email').notNull().unique(),
+        verified: boolean('verified').notNull().default(false),
     },
     (table) => {
         return {

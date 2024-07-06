@@ -43,4 +43,36 @@ export class UserRepository {
             })
             .returning({ id: users.id });
     }
+
+    public async update(
+        id: string,
+        newData: {
+            avatarPath: string;
+            username: string;
+            email: string;
+        }
+    ) {
+        return await this.sharedService.db
+            .update(users)
+            .set(newData)
+            .where(eq(users.id, id))
+            .returning({
+                id: users.id,
+            });
+    }
+
+    public async delete(id: string) {
+        return await this.sharedService.db
+            .delete(users)
+            .where(eq(users.id, id))
+            .returning({ id: users.id });
+    }
+
+    public async markVerified(id: string) {
+        return await this.sharedService.db
+            .update(users)
+            .set({ verified: true })
+            .where(eq(users.id, id))
+            .returning({ id: users.id });
+    }
 }
