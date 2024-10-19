@@ -1,7 +1,7 @@
-import { appConfig } from '@/config/app.config';
 import buildServer from '@/build';
+import { appConfig } from '@/config/app.config';
 
-import { connectToDb } from '@/adapters/db';
+import { db } from '@/adapters/db';
 
 const server = buildServer();
 
@@ -9,7 +9,9 @@ const start = async (port: number, host: string) => {
     try {
         server.log.info(`Starting server in ${appConfig.ENVIRONMENT} mode`);
 
-        await connectToDb();
+        db.$client.on('error', (e) => {
+            server.log.error(e);
+        });
 
         server
             .listen({ port, host })

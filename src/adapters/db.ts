@@ -1,25 +1,10 @@
-import { type PostgresJsDatabase, drizzle } from 'drizzle-orm/postgres-js';
-import { Pool } from 'pg';
+import { drizzle } from 'drizzle-orm/node-postgres';
 
-import { appConfig } from '@/config/app.config';
-import { logger } from '@/utils/logger';
-import * as schema from '@/db/users';
+const db = drizzle({
+    connection: {
+        connectionString: process.env.DATABASE_URL,
+        ssl: true,
+    },
+});
 
-export let db: PostgresJsDatabase<typeof schema>;
-
-export const connectToDb = async () => {
-    const pool = await new Pool({
-        connectionString: appConfig.DATABASE_URL,
-    })
-        .connect()
-        .then((client) => {
-            logger.info('Connected to PostgreSQL');
-            return client;
-        })
-        .catch((error) => {
-            logger.info('Disconnecting from database');
-            logger.error(error);
-        });
-
-    db = drizzle(pool, { schema });
-};
+export { db };

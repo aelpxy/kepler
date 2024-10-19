@@ -1,5 +1,5 @@
-import SharedServiceBase from '@/shared/shared-service';
 import { repository } from '@/repository';
+import SharedServiceBase from '@/shared/shared-service';
 
 import { HttpException } from '@/utils/http';
 
@@ -23,7 +23,6 @@ export class UserService {
             );
         }
 
-        // copying an object with `...` does introduce some memory overhead but it's fine
         const user = await repository.userRepository.create({
             avatarPath: 'avatar_path',
             ...params,

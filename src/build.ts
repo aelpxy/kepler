@@ -1,18 +1,18 @@
+import cors from '@fastify/cors';
+import fastifyEtag from '@fastify/etag';
+import helmet from '@fastify/helmet';
+import rateLimit from '@fastify/rate-limit';
 import Fastify, { type FastifyInstance } from 'fastify';
 import {
     serializerCompiler,
     validatorCompiler,
 } from 'fastify-type-provider-zod';
-import cors from '@fastify/cors';
-import helmet from '@fastify/helmet';
-import rateLimit from '@fastify/rate-limit';
-import fastifyEtag from '@fastify/etag';
 
 import redisInstance from '@/adapters/redis';
 
-import { loggerConfig } from '@/utils/logger';
-import { id } from '@/utils/id';
 import { appConfig } from '@/config/app.config';
+import { id } from '@/utils/id';
+import { loggerConfig } from '@/utils/logger';
 
 declare module 'fastify' {
     interface FastifyError {

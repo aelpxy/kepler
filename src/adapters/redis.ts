@@ -1,6 +1,6 @@
-import { Redis } from 'ioredis';
-import { logger } from '@/utils/logger';
 import { appConfig } from '@/config/app.config';
+import { logger } from '@/utils/logger';
+import { Redis } from 'ioredis';
 
 const redisInstance = new Redis(appConfig.REDIS_URL as string);
 

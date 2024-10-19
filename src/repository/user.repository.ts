@@ -1,5 +1,5 @@
-import SharedServiceBase from '@/shared/shared-service';
 import { users } from '@/db/schema';
+import SharedServiceBase from '@/shared/shared-service';
 
 import { eq } from 'drizzle-orm';
 

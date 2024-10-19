@@ -2,8 +2,8 @@ import { db } from '@/adapters/db';
 import argon2 from 'argon2';
 
 import { id } from '@/utils/id';
-import { logger } from '@/utils/logger';
 import { jwt } from '@/utils/jwt';
+import { logger } from '@/utils/logger';
 
 class SharedServiceBase {
     public readonly db: typeof db;
@@ -18,7 +18,6 @@ class SharedServiceBase {
         this.log = logger;
         this.argon2 = argon2;
         this.jwt = jwt;
-        this.argon2 = argon2;
     }
 }
 
